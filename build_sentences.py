@@ -18,6 +18,14 @@ LANGS = [('en', 'English'), ('es', 'Spanish'), ('fr', 'French')]
 COLS = [('CosyVoice3 end-to-end', 'cosyvoice_end-to-end'),
         ('Chatterbox (neutral)', 'chatterbox_output'),
         ('Chatterbox → Step-Audio-EditX', 'step-audio-editx_edition')]
+# Extra columns shown only for some languages: CosyVoice3 with the emotion instruction written in the voice's language.
+EXTRA_COLS = {'es': [('CosyVoice3, native instruction', 'cosyvoice_native-instruct')],
+              'fr': [('CosyVoice3, native instruction', 'cosyvoice_native-instruct')]}
+ALL_COLS = COLS + [c for c in dict.fromkeys(c for cs in EXTRA_COLS.values() for c in cs)]
+
+
+def cols(lang):
+    return COLS[:1] + EXTRA_COLS.get(lang, []) + COLS[1:]
 
 jobs = []
 
@@ -47,9 +55,9 @@ for lang, lang_name in LANGS:
     blocks = []
     for v in voices:
         ref = mp3(f'{P}/inputs/library/{lang}/{v}.wav', f'audios/sentences/reference/{lang}/{v}.mp3')
-        rows = ''.join(f'<tr data-row="{lang}|{v}|{e}"><td><b>{e}</b></td>' + ''.join(cell(lang, v, e, d) for _, d in COLS) + '</tr>'
+        rows = ''.join(f'<tr data-row="{lang}|{v}|{e}"><td><b>{e}</b></td>' + ''.join(cell(lang, v, e, d) for _, d in cols(lang)) + '</tr>'
                        for e in EMOS)
-        head = ''.join(f'<th>{n}</th>' for n, _ in COLS)
+        head = ''.join(f'<th>{n}</th>' for n, _ in cols(lang))
         blocks.append(f'''
         <details data-voice="{lang}|{v}">
           <summary><b>{html.escape(LIB.get(v, v))}</b> <span class="muted">({v})</span> <span class="done muted"></span></summary>
@@ -63,7 +71,7 @@ for lang, lang_name in LANGS:
 ''')
 
 nav = ' · '.join(f'<a href="#{l}">{n}</a>' for l, n in LANGS) + ' · <a href="#results">Results</a>'
-CONFIG = json.dumps({'emotions': EMOS, 'models': [[d, n] for n, d in COLS], 'langs': LANGS}, ensure_ascii=False)
+CONFIG = json.dumps({'emotions': EMOS, 'models': [[d, n] for n, d in ALL_COLS], 'langs': LANGS}, ensure_ascii=False)
 
 SCRIPT = r'''
 <script>
@@ -241,6 +249,9 @@ page = f'''<!DOCTYPE html>
       <dl>
         <dt>CosyVoice3 end-to-end</dt>
         <dd>Fun-CosyVoice3-0.5B cloning the reference voice, with the emotion given as a text instruction (e.g. "Speak in a very angry, furious tone").</dd>
+        <dt>CosyVoice3, native instruction <span class="muted">(Spanish and French only, new)</span></dt>
+        <dd>Same as CosyVoice3 end-to-end, but the emotion instruction is written in the voice's language
+          (e.g. "Parle d'un ton très en colère, furieux"), to check whether this removes the English accent.</dd>
         <dt>Chatterbox (neutral)</dt>
         <dd>Chatterbox multilingual 0.1.7 with default settings, no emotion control. It is the input to the next column.</dd>
         <dt>Chatterbox → Step-Audio-EditX</dt>

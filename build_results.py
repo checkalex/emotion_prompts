@@ -15,7 +15,8 @@ EMOS = ['Angry', 'Happy', 'Sad', 'Embarrassed', 'Shocked', 'Excited', 'Exhausted
 LANGS = [('en', 'English'), ('es', 'Spanish'), ('fr', 'French')]
 MODELS = [('cosyvoice_end-to-end', 'CosyVoice3 end-to-end'),
           ('chatterbox_output', 'Chatterbox (neutral)'),
-          ('step-audio-editx_edition', 'Chatterbox → Step-Audio-EditX')]
+          ('step-audio-editx_edition', 'Chatterbox → Step-Audio-EditX'),
+          ('cosyvoice_native-instruct', 'CosyVoice3, native instruction (es/fr only)')]
 
 exports = []
 for path in sorted(glob.glob(f'{R}/results/*.json')):
@@ -109,6 +110,8 @@ page = f'''<!DOCTYPE html>
           struggles with the French speech (worse than CosyVoice3). Chatterbox has no emotion control, so French still needs a
           working emotion option.</li>
         <li><b>Spanish:</b> not rated yet.</li>
+        <li><b>New:</b> a <i>CosyVoice3, native instruction</i> column was added for Spanish and French on the listening page
+          (emotion instruction written in the voice's language) to test whether it removes the English accent. Not rated yet.</li>
         <li>Sample size is small ({sum(rated["all"].values())} lines out of 210), so treat these numbers as a first signal.</li>
       </ul>
       <h2>Scores</h2>
