@@ -111,7 +111,10 @@ page = f'''<!DOCTYPE html>
           working emotion option.</li>
         <li><b>Spanish:</b> not rated yet.</li>
         <li><b>New:</b> a <i>CosyVoice3, native instruction</i> column was added for Spanish and French on the listening page
-          (emotion instruction written in the voice's language) to test whether it removes the English accent. Not rated yet.</li>
+          (emotion instruction written in the voice's language) to test whether it removes the English accent. Not rated yet.
+          Automatic check (Whisper language detection, a rough proxy for accent): with the English instruction, 10 of 70 French
+          CosyVoice3 clips were detected as less than 90% French (lowest 48%); with the French instruction, none were
+          (average 99.3%, same level as Chatterbox). Spanish was already fine with either instruction.</li>
         <li>Sample size is small ({sum(rated["all"].values())} lines out of 210), so treat these numbers as a first signal.</li>
       </ul>
       <h2>Scores</h2>
