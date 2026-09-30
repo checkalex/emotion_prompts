@@ -1,0 +1,17 @@
+{"page": "emotion_prompts/sentences.html", "reviewer": "", "exported_at": "2026-09-30T09:33:19.673Z", "lines_rated": 29, "lines_total": 210,
+ "comments": "For French only Chatterbox (neutral) doesn't apply an English accent. CosyVoice3 end-to-end applies an English accent and Chatterbox → Step-Audio-EditX had some trouble to handle the speech, it's even worse than CosyVoice3 end-to-end.",
+ "picks": [
+  "en|en_voice01|Angry|cosyvoice_end-to-end", "en|en_voice01|Angry|chatterbox_output", "en|en_voice01|Angry|step-audio-editx_edition",
+  "en|en_voice01|Sad|step-audio-editx_edition", "en|en_voice01|Embarrassed|cosyvoice_end-to-end", "en|en_voice01|Embarrassed|chatterbox_output",
+  "en|en_voice01|Shocked|cosyvoice_end-to-end", "en|en_voice01|Shocked|step-audio-editx_edition", "en|en_voice01|Excited|chatterbox_output",
+  "en|en_voice02|Angry|cosyvoice_end-to-end", "en|en_voice02|Sad|chatterbox_output", "en|en_voice02|Embarrassed|cosyvoice_end-to-end",
+  "en|en_voice02|Shocked|cosyvoice_end-to-end", "en|en_voice02|Shocked|step-audio-editx_edition", "en|en_voice02|Excited|cosyvoice_end-to-end",
+  "en|en_voice02|Exhausted|cosyvoice_end-to-end", "en|en_voice03|Angry|cosyvoice_end-to-end", "en|en_voice03|Sad|cosyvoice_end-to-end",
+  "en|en_voice03|Embarrassed|cosyvoice_end-to-end", "en|en_voice03|Shocked|cosyvoice_end-to-end", "en|en_voice03|Shocked|step-audio-editx_edition",
+  "en|en_voice03|Excited|cosyvoice_end-to-end", "en|en_voice03|Excited|step-audio-editx_edition", "en|en_voice03|Exhausted|cosyvoice_end-to-end",
+  "en|en_voice03|Exhausted|step-audio-editx_edition",
+  "fr|fr_voice03|Angry|chatterbox_output", "fr|fr_voice03|Happy|chatterbox_output", "fr|fr_voice03|Sad|chatterbox_output",
+  "fr|fr_voice03|Embarrassed|chatterbox_output", "fr|fr_voice03|Shocked|chatterbox_output", "fr|fr_voice03|Exhausted|chatterbox_output",
+  "fr|fr_voice06|Angry|chatterbox_output", "fr|fr_voice06|Happy|chatterbox_output", "fr|fr_voice06|Sad|chatterbox_output",
+  "fr|fr_voice06|Embarrassed|chatterbox_output", "fr|fr_voice06|Shocked|chatterbox_output", "fr|fr_voice06|Exhausted|chatterbox_output"
+ ]}
