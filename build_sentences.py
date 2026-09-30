@@ -19,13 +19,16 @@ COLS = [('CosyVoice3 end-to-end', 'cosyvoice_end-to-end'),
         ('Chatterbox (neutral)', 'chatterbox_output'),
         ('Chatterbox → Step-Audio-EditX', 'step-audio-editx_edition')]
 # Extra columns shown only for some languages: CosyVoice3 with the emotion instruction written in the voice's language.
+FINETUNED_COLS = [('Chatterbox finetuned (neutral)', 'chatterbox_finetuned'),
+                  ('Chatterbox finetuned → Step-Audio-EditX', 'step-audio-editx_finetuned')]
 EXTRA_COLS = {'es': [('CosyVoice3, native instruction', 'cosyvoice_native-instruct')],
               'fr': [('CosyVoice3, native instruction', 'cosyvoice_native-instruct')]}
-ALL_COLS = COLS + [c for c in dict.fromkeys(c for cs in EXTRA_COLS.values() for c in cs)]
+EXTRA_COLS_END = {'es': FINETUNED_COLS, 'fr': FINETUNED_COLS}
+ALL_COLS = COLS + [c for c in dict.fromkeys(c for d in (EXTRA_COLS, EXTRA_COLS_END) for cs in d.values() for c in cs)]
 
 
 def cols(lang):
-    return COLS[:1] + EXTRA_COLS.get(lang, []) + COLS[1:]
+    return COLS[:1] + EXTRA_COLS.get(lang, []) + COLS[1:] + EXTRA_COLS_END.get(lang, [])
 
 jobs = []
 
@@ -258,6 +261,8 @@ page = f'''<!DOCTYPE html>
         <dd>The Chatterbox clip edited by Step-Audio-EditX with an emotion label (two edit passes).
           <b>Shocked</b> uses <i>surprised</i> and <b>Exhausted</b> uses <i>depressed</i>, since EditX has no exact label for them.
           EditX is mainly trained on Chinese and English, so Spanish and French edits may be weaker.</dd>
+        <dt>Chatterbox finetuned (neutral) / Chatterbox finetuned → Step-Audio-EditX <span class="muted">(Spanish and French only, new)</span></dt>
+        <dd>Same two approaches, but with odub's production finetuned French and Spanish Chatterbox models instead of the public multilingual one.</dd>
       </dl>
       <h2>How to rate</h2>
       <p>For every line (voice × emotion), tick <b>best</b> under the output that conveys the emotion best while still

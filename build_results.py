@@ -16,7 +16,9 @@ LANGS = [('en', 'English'), ('es', 'Spanish'), ('fr', 'French')]
 MODELS = [('cosyvoice_end-to-end', 'CosyVoice3 end-to-end'),
           ('chatterbox_output', 'Chatterbox (neutral)'),
           ('step-audio-editx_edition', 'Chatterbox → Step-Audio-EditX'),
-          ('cosyvoice_native-instruct', 'CosyVoice3, native instruction (es/fr only)')]
+          ('cosyvoice_native-instruct', 'CosyVoice3, native instruction (es/fr only)'),
+          ('chatterbox_finetuned', 'Chatterbox finetuned (neutral) (es/fr only)'),
+          ('step-audio-editx_finetuned', 'Chatterbox finetuned → Step-Audio-EditX (es/fr only)')]
 
 exports = []
 for path in sorted(glob.glob(f'{R}/results/*.json')):
@@ -115,6 +117,8 @@ page = f'''<!DOCTYPE html>
           Automatic check (Whisper language detection, a rough proxy for accent): with the English instruction, 10 of 70 French
           CosyVoice3 clips were detected as less than 90% French (lowest 48%); with the French instruction, none were
           (average 99.3%, same level as Chatterbox). Spanish was already fine with either instruction.</li>
+        <li><b>New:</b> Spanish and French also have two columns with odub's production finetuned Chatterbox models
+          (neutral, and edited by Step-Audio-EditX). Not rated yet.</li>
         <li>Sample size is small ({sum(rated["all"].values())} lines out of 210), so treat these numbers as a first signal.</li>
       </ul>
       <h2>Scores</h2>
