@@ -265,7 +265,8 @@ page = f'''<!DOCTYPE html>
           English only on this page: EditX doesn't support Spanish or French yet (its audio tokenizer is Chinese/English only),
           so those outputs sounded English-accented and distorted and were removed.</dd>
         <dt>Chatterbox finetuned (neutral) <span class="muted">(Spanish and French only, new)</span></dt>
-        <dd>Chatterbox (neutral), but with odub's production finetuned French and Spanish model instead of the public multilingual one.</dd>
+        <dd>Chatterbox (neutral), but with odub's production finetuned French and Spanish model instead of the public multilingual one. Generated with three fixes not yet in odub: silence padding so the last syllable isn't clipped,
+          one sentence at a time (the model sometimes stopped after the first sentence), and a retry when a sentence comes out empty.</dd>
       </dl>
       <h2>How to rate</h2>
       <p>For every line (voice × emotion), tick <b>best</b> under the output that conveys the emotion best while still

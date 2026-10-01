@@ -43,7 +43,9 @@
           Automatic check (Whisper language detection, a rough proxy for accent): with the English instruction, 10 of 70 French
           CosyVoice3 clips were detected as less than 90% French (lowest 48%); with the French instruction, none were
           (average 99.3%, same level as Chatterbox). Spanish was already fine with either instruction.</li>
-        <li><b>New:</b> Spanish and French also have a column with odub's production finetuned Chatterbox models. Not rated yet.</li>
+        <li><b>New:</b> Spanish and French also have a column with odub's production finetuned Chatterbox models. Not rated yet.
+          The first version clipped the last syllable of most clips and sometimes stopped after the first sentence; it was regenerated
+          with fixes (silence padding before the vocoder, one sentence at a time, retry on empty output).</li>
         <li><b>Removed:</b> Step-Audio-EditX outputs for Spanish and French. EditX doesn't support those languages yet (its audio
           tokenizer is Chinese/English only), so they sounded English-accented and distorted. It stays in the English comparison.</li>
         <li>Sample size is small (29 lines out of 210), so treat these numbers as a first signal.</li>
