@@ -111,12 +111,12 @@ page = f'''<!DOCTYPE html>
       <h2>Summary</h2>
       <ul>
         <li><b>English → CosyVoice3 end-to-end.</b> Alex picked it as the best output on all 70 lines (10 voices × 7 emotions),
-          with no ties; the first reviewer picked it on 14 of 17 lines.</li>
+          with no ties; Florian picked it on 14 of 17 lines.</li>
         <li><b>Spanish → CosyVoice3 end-to-end.</b> Alex picked it on all 70 lines, with the English emotion instruction.
           Ties show where the alternatives were as good: the native-instruction version on Sad, Shocked and Excited (8/10 each)
           and Happy (6/10); the finetuned Chatterbox on Angry and Embarrassed (7/10 each), even though it has no emotion control.
           Step-Audio-EditX was removed for Spanish (not supported).</li>
-        <li><b>French → still open.</b> In the first ratings, only Chatterbox (neutral) was picked: CosyVoice3 with the English
+        <li><b>French → still open.</b> In Florian's ratings, only Chatterbox (neutral) was picked: CosyVoice3 with the English
           instruction added an English accent. The native-instruction and finetuned columns haven't been rated for French yet.
           Automatic check (Whisper language detection, a rough proxy for accent): with the English instruction, 10 of 70 French
           CosyVoice3 clips were detected as less than 90% French (lowest 48%); with the French instruction, none were.</li>
