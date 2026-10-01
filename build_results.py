@@ -18,7 +18,10 @@ MODELS = [('cosyvoice_end-to-end', 'CosyVoice3 end-to-end'),
           ('step-audio-editx_edition', 'Chatterbox → Step-Audio-EditX'),
           ('cosyvoice_native-instruct', 'CosyVoice3, native instruction (es/fr only)'),
           ('chatterbox_finetuned', 'Chatterbox finetuned (neutral) (es/fr only)'),
-          ('step-audio-editx_finetuned', 'Chatterbox finetuned → Step-Audio-EditX (es/fr only)')]
+          ]
+# Columns shown per language, matching the listening page (EditX removed for es/fr; es/fr-only columns not shown for en).
+ES_FR_ONLY = {'cosyvoice_native-instruct', 'chatterbox_finetuned'}
+HIDDEN = {'en': ES_FR_ONLY, 'es': {'step-audio-editx_edition'}, 'fr': {'step-audio-editx_edition'}, 'all': set()}
 
 exports = []
 for path in sorted(glob.glob(f'{R}/results/*.json')):
@@ -41,24 +44,25 @@ for d in exports:
 
 
 def table(l):
-    head = ''.join(f'<th>{n}</th>' for _, n in MODELS)
+    models = [x for x in MODELS if x[0] not in HIDDEN[l]]
+    head = ''.join(f'<th>{n}</th>' for _, n in models)
     rows, tot, tot_rated = [], defaultdict(int), 0
     for e in EMOS:
         n = rated[l][e]
         tot_rated += n
-        vals = [count[l][e][m] for m, _ in MODELS]
+        vals = [count[l][e][m] for m, _ in models]
         best = max(vals)
         cells = []
-        for (m, _), v in zip(MODELS, vals):
+        for (m, _), v in zip(models, vals):
             tot[m] += v
             pct = f'{round(100 * v / n)}%' if n else '–'
             cells.append(f'<td class="{"win" if best and v == best else ""}">{v} <span class="muted">({pct})</span></td>')
         rows.append(f'<tr><td><b>{e}</b></td><td>{n}</td>{"".join(cells)}</tr>')
-    best = max(tot[m] for m, _ in MODELS)
+    best = max(tot[m] for m, _ in models)
     cells = ''.join(
         f'<td class="{"win" if best and tot[m] == best else ""}"><b>{tot[m]}</b> '
         f'<span class="muted">({round(100 * tot[m] / tot_rated) if tot_rated else "–"}{"%" if tot_rated else ""})</span></td>'
-        for m, _ in MODELS)
+        for m, _ in models)
     rows.append(f'<tr class="total"><td><b>Total</b></td><td>{tot_rated}</td>{cells}</tr>')
     return f'<div class="scroll"><table class="grid"><tr><th>Emotion</th><th>Lines rated</th>{head}</tr>{"".join(rows)}</table></div>'
 
@@ -117,8 +121,9 @@ page = f'''<!DOCTYPE html>
           Automatic check (Whisper language detection, a rough proxy for accent): with the English instruction, 10 of 70 French
           CosyVoice3 clips were detected as less than 90% French (lowest 48%); with the French instruction, none were
           (average 99.3%, same level as Chatterbox). Spanish was already fine with either instruction.</li>
-        <li><b>New:</b> Spanish and French also have two columns with odub's production finetuned Chatterbox models
-          (neutral, and edited by Step-Audio-EditX). Not rated yet.</li>
+        <li><b>New:</b> Spanish and French also have a column with odub's production finetuned Chatterbox models. Not rated yet.</li>
+        <li><b>Removed:</b> Step-Audio-EditX outputs for Spanish and French. EditX doesn't support those languages yet (its audio
+          tokenizer is Chinese/English only), so they sounded English-accented and distorted. It stays in the English comparison.</li>
         <li>Sample size is small ({sum(rated["all"].values())} lines out of 210), so treat these numbers as a first signal.</li>
       </ul>
       <h2>Scores</h2>

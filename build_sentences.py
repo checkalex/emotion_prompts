@@ -19,8 +19,9 @@ COLS = [('CosyVoice3 end-to-end', 'cosyvoice_end-to-end'),
         ('Chatterbox (neutral)', 'chatterbox_output'),
         ('Chatterbox → Step-Audio-EditX', 'step-audio-editx_edition')]
 # Extra columns shown only for some languages: CosyVoice3 with the emotion instruction written in the voice's language.
-FINETUNED_COLS = [('Chatterbox finetuned (neutral)', 'chatterbox_finetuned'),
-                  ('Chatterbox finetuned → Step-Audio-EditX', 'step-audio-editx_finetuned')]
+FINETUNED_COLS = [('Chatterbox finetuned (neutral)', 'chatterbox_finetuned')]
+# Step-Audio-EditX doesn't support Spanish/French (its tokenizer is zh/en only): those outputs sound English and distorted.
+HIDDEN_COLS = {'es': {'step-audio-editx_edition'}, 'fr': {'step-audio-editx_edition'}}
 EXTRA_COLS = {'es': [('CosyVoice3, native instruction', 'cosyvoice_native-instruct')],
               'fr': [('CosyVoice3, native instruction', 'cosyvoice_native-instruct')]}
 EXTRA_COLS_END = {'es': FINETUNED_COLS, 'fr': FINETUNED_COLS}
@@ -28,7 +29,8 @@ ALL_COLS = COLS + [c for c in dict.fromkeys(c for d in (EXTRA_COLS, EXTRA_COLS_E
 
 
 def cols(lang):
-    return COLS[:1] + EXTRA_COLS.get(lang, []) + COLS[1:] + EXTRA_COLS_END.get(lang, [])
+    return [c for c in COLS[:1] + EXTRA_COLS.get(lang, []) + COLS[1:] + EXTRA_COLS_END.get(lang, [])
+            if c[1] not in HIDDEN_COLS.get(lang, set())]
 
 jobs = []
 
@@ -260,9 +262,10 @@ page = f'''<!DOCTYPE html>
         <dt>Chatterbox → Step-Audio-EditX</dt>
         <dd>The Chatterbox clip edited by Step-Audio-EditX with an emotion label (two edit passes).
           <b>Shocked</b> uses <i>surprised</i> and <b>Exhausted</b> uses <i>depressed</i>, since EditX has no exact label for them.
-          EditX is mainly trained on Chinese and English, so Spanish and French edits may be weaker.</dd>
-        <dt>Chatterbox finetuned (neutral) / Chatterbox finetuned → Step-Audio-EditX <span class="muted">(Spanish and French only, new)</span></dt>
-        <dd>Same two approaches, but with odub's production finetuned French and Spanish Chatterbox models instead of the public multilingual one.</dd>
+          English only on this page: EditX doesn't support Spanish or French yet (its audio tokenizer is Chinese/English only),
+          so those outputs sounded English-accented and distorted and were removed.</dd>
+        <dt>Chatterbox finetuned (neutral) <span class="muted">(Spanish and French only, new)</span></dt>
+        <dd>Chatterbox (neutral), but with odub's production finetuned French and Spanish model instead of the public multilingual one.</dd>
       </dl>
       <h2>How to rate</h2>
       <p>For every line (voice × emotion), tick <b>best</b> under the output that conveys the emotion best while still
