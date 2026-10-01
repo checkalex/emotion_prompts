@@ -110,23 +110,21 @@ page = f'''<!DOCTYPE html>
       <p><a href="sentences.html">← Round 2 listening page</a> · <a href="index.html">Round 1</a></p>
       <h2>Summary</h2>
       <ul>
-        <li><b>English:</b> CosyVoice3 end-to-end wins clearly: best on 14 of 17 rated lines (82%), and best or tied on every emotion rated.
-          Step-Audio-EditX is competitive only on <i>Shocked</i>.</li>
-        <li><b>French:</b> only Chatterbox (neutral) was picked. CosyVoice3 adds an English accent, and Step-Audio-EditX
-          struggles with the French speech (worse than CosyVoice3). Chatterbox has no emotion control, so French still needs a
-          working emotion option.</li>
-        <li><b>Spanish:</b> not rated yet.</li>
-        <li><b>New:</b> a <i>CosyVoice3, native instruction</i> column was added for Spanish and French on the listening page
-          (emotion instruction written in the voice's language) to test whether it removes the English accent. Not rated yet.
+        <li><b>English → CosyVoice3 end-to-end.</b> Alex picked it as the best output on all 70 lines (10 voices × 7 emotions),
+          with no ties; the first reviewer picked it on 14 of 17 lines.</li>
+        <li><b>Spanish → CosyVoice3 end-to-end.</b> Alex picked it on all 70 lines, with the English emotion instruction.
+          Ties show where the alternatives were as good: the native-instruction version on Sad, Shocked and Excited (8/10 each)
+          and Happy (6/10); the finetuned Chatterbox on Angry and Embarrassed (7/10 each), even though it has no emotion control.
+          Step-Audio-EditX was removed for Spanish (not supported).</li>
+        <li><b>French → still open.</b> In the first ratings, only Chatterbox (neutral) was picked: CosyVoice3 with the English
+          instruction added an English accent. The native-instruction and finetuned columns haven't been rated for French yet.
           Automatic check (Whisper language detection, a rough proxy for accent): with the English instruction, 10 of 70 French
-          CosyVoice3 clips were detected as less than 90% French (lowest 48%); with the French instruction, none were
-          (average 99.3%, same level as Chatterbox). Spanish was already fine with either instruction.</li>
-        <li><b>New:</b> Spanish and French also have a column with odub's production finetuned Chatterbox models. Not rated yet.
-          The first version clipped the last syllable of most clips and sometimes stopped after the first sentence; it was regenerated
-          with fixes (silence padding before the vocoder, one sentence at a time, retry on empty output).</li>
+          CosyVoice3 clips were detected as less than 90% French (lowest 48%); with the French instruction, none were.</li>
+        <li><b>Finetuned Chatterbox (es/fr)</b> was regenerated with fixes not yet in odub: the first version clipped the last
+          syllable of most clips and sometimes stopped after the first sentence.</li>
         <li><b>Removed:</b> Step-Audio-EditX outputs for Spanish and French. EditX doesn't support those languages yet (its audio
-          tokenizer is Chinese/English only), so they sounded English-accented and distorted. It stays in the English comparison.</li>
-        <li>Sample size is small ({sum(rated["all"].values())} lines out of 210), so treat these numbers as a first signal.</li>
+          tokenizer is Chinese/English only), so they sounded English-accented and distorted.</li>
+        <li>{sum(rated["all"].values())} reviewer-lines rated so far; more reviewers, and French ratings, will make these numbers firmer.</li>
       </ul>
       <h2>Scores</h2>
       <p>One point per ticked box. The percentage is out of the lines rated for that emotion (it can add up to more than 100%
